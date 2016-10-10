@@ -1,0 +1,99 @@
+<html ng-app="minmax">
+    <head>
+        <title>Form validation auto - angular autoValidate</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ladda-bootstrap/0.9.4/ladda-themeless.min.css" />
+    </head>
+    <body>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+        <script type="text/javascript" src="forms_validation_angular_auto_validate.js"></script>
+        <!-- This could be found here http://jonsamwell.github.io/angular-auto-validate/ -->
+        <script type="text/javascript" src="jcs-auto-validate.min.js"></script>
+        <!-- order of min.js is imp for ladda to work-->
+        <script  type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js"></script>
+        <script  type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ladda-bootstrap/0.9.4/ladda.min.js"></script>        
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ladda/0.4.2/angular-ladda.min.js"></script>        
+    
+    <div class="container main-content" ng-controller="MinMaxController">
+        <form ng-submit="onSubmit()"
+              novalidate="novalidate">  
+            
+            <div class="form-group">
+                <label for="name" class="control-label">Name</label>
+                <input type="text" 
+                       class="form-control" 
+                       ng-model="formModel.name"
+                       id="name"
+                       required>
+            </div>
+            <div class="form-group">
+                <label for="email" class="control-label">Email</label>
+                <input type="email" 
+                       class="form-control"
+                       ng-model="formModel.email"
+                       id="email"
+                       required>
+            </div>
+            <div class="form-group">
+                <!--Here added pattern to validate username 
+                    explore http://html5pattern.com/ for more regular expressions for validation-->
+                <label for="username" class="control-label">User Name</label>
+                <input type="text" 
+                       class="form-control" 
+                       ng-model="formModel.username"
+                       ng-pattern="/^[A-Za-z0-9_]{1,32}$/"
+                       ng-minlength="7"
+                       ng-pattern-err-type="badUserName"
+                       id="username"
+                       required>
+            </div>
+            <div class="form-group">
+                <label for="age" class="control-label">Age</label>
+                <!-- Here min/max validation is added -->
+                <input type="number" 
+                       class="form-control" 
+                       ng-model="formModel.age"
+                       id="age"
+                       min="18"
+                       max="64"
+                       ng-min-err-type="tooYoung"
+                       ng-max-err-type="tooOld"
+                       required>
+            </div>
+            <div class="form-group">
+                <label for="sex" class="control-label">Sex</label>
+                <Select name="sex" 
+                        id="sex"
+                        class="form-control" 
+                        ng-model="formModel.sex"
+                        required>
+                    <option value="">Please choose</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </Select>
+            </div>
+            <div class="form-group">
+                <label for="password" class="control-label">Password</label>
+                <!--min lenghth validation added here -->
+                <input type="password" 
+                       class="form-control" 
+                       ng-model="formModel.password"
+                       ng-minlength="6"
+                       id="password"
+                       required>
+            </div>
+            <button class="btn btn-primary" 
+                    ladda="submitting"
+                    data-style="expand-right"
+                    type="submit">
+                <span ng-show="submitting">Registing</span>
+                <span ng-show="!submitting">Register</span>
+            </button>           <!-- ng-click="onSubmit()"-->
+        </form>
+        <pre>
+            {{ formModel | json}} 
+            <!-- this is called filter in angular-> json is the value; we can have our own filters too -->
+        </pre>
+    </div>
+    </body>
+</html>
